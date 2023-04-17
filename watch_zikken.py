@@ -6,6 +6,8 @@ import threading
 import video
 import audio
 from tkinter import messagebox
+import cv2
+import datetime
 import os
 os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0"
 global interval
@@ -165,7 +167,7 @@ class watch_movie(tk.Frame):
     def rocate(self):
         self.label1_frame_app.pack_forget()
         self.button_change_frame_app.pack_forget()
-        self.create_widgets()
+        #self.create_widgets()
 
         # 経過時間スレッドの開始
         self.t = threading.Thread(target=self.timer, daemon=True)
@@ -183,11 +185,12 @@ class watch_movie(tk.Frame):
         audio.play()
         video.play()
 
+    """ 
     # ウィジェットの生成と配置
     def create_widgets(self):
         # # 時間計測用のラベル
         self.time_label = tk.Label(self, text="", font=("", 20))
-        self.time_label.grid(row=4, column=0, columnspan=2)
+        self.time_label.grid(row=4, column=0, columnspan=2)"""
 
     def timer(self):
         self.second = 0
@@ -195,7 +198,7 @@ class watch_movie(tk.Frame):
         while self.flg:
             print(self.second)
             self.second += 1
-            self.time_label.configure(text=f"経過時間：{self.second}秒")
+            #self.time_label.configure(text=f"経過時間：{self.second}秒")
             time.sleep(1)
 
             # 2分経ったら
@@ -213,14 +216,123 @@ class watch_movie(tk.Frame):
                 questionnaire()
                 return 0
 
+"""####カメラ####
+def record(cap, out, fil):
+    tm=cv2.TickMeter()
+    tm.start()
+    count = 0
+    count1 = 0
+    max_count = 1
+    fps = 0
+    n = 0
+    while(cap.isOpened()):
+        ret, frame = cap.read()
+        if ret == True:
+            if count == max_count:
+                tm.stop()
+                fps = max_count / tm.getTimeSec()
+                tm.reset()
+                tm.start()
+                count = 0
+            cv2.putText(frame, 'FPS: {:.2f}'.format(fps),(10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 255), thickness=2)
+            #cv2.putText(frame, 'Frame:{:.0f}'.format(count1),(1000, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 255), thickness=2)
+            out.write(frame)
+            cv2.imshow('camera', frame)
+            fil.write(str(count1) + "," + str(fps) + "\n")
+            count1 += 1
+            count += 1
+
+            k = cv2.waitKey(1)
+            if k == 27:    # Esc key to stop
+                break
+        else:
+            break
+
+    fil.close()
+    cap.release()
+    out.release()
+    cv2.destroyAllWindows()
+
+    def record(cap, out, fil):
+        tm=cv2.TickMeter()
+    tm.start()
+    count = 0
+    count1 = 0
+    max_count = 1
+    fps = 0
+    n = 0
+    while(cap.isOpened()):
+        ret, frame = cap.read()
+        if ret == True:
+            if count == max_count:
+                tm.stop()
+                fps = max_count / tm.getTimeSec()
+                tm.reset()
+                tm.start()
+                count = 0
+            cv2.putText(frame, 'FPS: {:.2f}'.format(fps),(10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 255), thickness=2)
+            #cv2.putText(frame, 'Frame:{:.0f}'.format(count1),(1000, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 255), thickness=2)
+            out.write(frame)
+            cv2.imshow('camera', frame)
+            fil.write(str(count1) + "," + str(fps) + "\n")
+            count1 += 1
+            count += 1
+
+            k = cv2.waitKey(1)
+            if k == 27:    # Esc key to stop
+                break
+        else:
+            break
+
+    fil.close()
+    cap.release()
+    out.release()
+    cv2.destroyAllWindows()
+    """
 if __name__ == "__main__":
     root = tk.Tk()
     global count
     count = 1
     root.attributes("-fullscreen", True)
-    root.title("タイピングゲーム！")
+    root.title("視聴実験")
+    """
+    dt_before = datetime.datetime.now().strftime('%Y/%m/%d %H.%M.%S.%f')[:-3]
+    print("Camera start:"+str(dt_before))
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
+    fps = 30
+    w = 1280
+    h = 720
+    cap.set(cv2.CAP_PROP_FPS, fps)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, w)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, h)
+    cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M','J','P','G'));
+
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
+    int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    print(fps)
+    print(int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)))
+    print(int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+    fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
+
+    m="test1"
+    name="./camera/"+str(m)
+    txt_name = str(name)+'.txt'
+    fil = open(str(txt_name), 'w')
+    #print(f)
+    camera_name = str(name)+'_video.mp4'
+    out = cv2.VideoWriter(str(camera_name), fourcc, fps, (w, h))
+    dt_after = datetime.datetime.now().strftime('%Y/%m/%d %H.%M.%S.%f')[:-3]
+
+    print("Camera after start:"+str(dt_after))
+    fil.write("Camera start,"+str(dt_before)+"\nCamera after start,"+str(dt_after)+"\nresolution,"+str(w)+"*"+str(h)+"\nMovie FPS,"+str(fps)+"\n")
+    fil.write("frame,FPS\n")
+    #thread = threading.Thread(name="thread", target=record, args=[cap, out, fil])#, daemon=True)
+    #thread.daemon = True
+    #thread.start()
+
+    """
     change()
-
     root.protocol("WM_DELETE_WINDOW", click_close)
     root.mainloop()
