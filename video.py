@@ -45,6 +45,7 @@ class Video():
             frame_now = frame_now + 1
             if frame_now*sleeptime >= time.time()-start_time:
                 frame_image = ImageTk.PhotoImage(Image.fromarray(image))
+                #frame_image = frame_image.resize(1920,1080)
                 self.frame.config(image=frame_image)
                 self.frame.image = frame_image
                 time.sleep(sleeptime)
