@@ -52,6 +52,7 @@ def task_select(canvas,v1):
     log.logging(situation="アンケート解答", questionnaire=str(ans))
     canvas.destroy()
     canvas2.destroy()
+
     canvas1 = tk.Canvas(root, highlightthickness=0)  # ,bg = "cyan")
     canvas1.pack(
         fill=tk.BOTH, expand=True
@@ -151,8 +152,10 @@ class watch_movie(tk.Frame):
     def __init__(self, master):
         if (count %2 == 0):
             self.txt = "リラックス動画が流れます"
+            
             self.video_path = "./video/relax1.mp4"
             self.audio_path="./video/relax1.wav"
+
         else:
             if count == 1:
                 movie_name = "1"
@@ -162,8 +165,10 @@ class watch_movie(tk.Frame):
                 movie_name = "3"
 
             self.txt = "映画予告の動画が流れます"
+
             self.video_path = "./video/" + movie_name + "_1080p.mp4"
             self.audio_path="./video/" + movie_name + ".wav"
+
 
         super().__init__(master)
         self.pack()
@@ -198,6 +203,7 @@ class watch_movie(tk.Frame):
         audio.play()
         video.play()
 
+
         if (count %2 == 0):
             # logに書き込み
             log.logging(situation="リラックスビデオスタート", questionnaire="-")
@@ -227,7 +233,6 @@ class watch_movie(tk.Frame):
                 audio.stop()
                 self.canvas.destroy()
 
-
                 global count
                 count += 1
                 questionnaire()
@@ -250,6 +255,7 @@ if __name__ == "__main__":
     log.first_log(now)
     # logに書き込み
     log.logging(situation="実験スタート", questionnaire="-")
+    
     change()
     root.protocol("WM_DELETE_WINDOW", click_close)
     root.mainloop()
