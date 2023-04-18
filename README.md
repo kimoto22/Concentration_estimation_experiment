@@ -4,30 +4,19 @@
 - ３つの興味を惹く動画と１つのリラックスする動画を再生し、その時の視聴者の様子をWebカメラで撮影します
 - 動画は興味を惹く動画とリラックス動画の交互で繰り返し再生され、合間に集中度に関するアンケートを実施します
 
-# DEMO
+# 実験のやり方
+フォルダ構成  
 
-- 後に記述
-
-# Requirement
-
-- 後に記述
-
-# Installation
-
-Requirementで列挙したライブラリなどのインストール方法を説明する
-
-```bash
-後に記述
-```
-
-# Usage
-
-DEMOの実行方法など、"hoge"の基本的な使い方を説明する
-
-```bash
-後に記述
-```
-
-# Note
-
-特になし（現時点では）
+project  
+┣ logdir/  
+┃ ┣ ここにログのCSVファイルが入ります  
+┣ video_audio/  
+┃ ┣ audio/  
+┃ ┃ ┣ ここにwavファイルが入ります  
+┃ ┣ video  
+┃ ┃ ┣ ここにmp4ファイルが入ります  
+┣ audio.py  
+┣ log_for_CSV.py  
+┣ video.py  
+┣ video_audio.py  
+┗ watch_zikken.py
