@@ -5,7 +5,7 @@
 - 動画は興味を惹く動画とリラックス動画の交互で繰り返し再生され、合間に集中度に関するアンケートを実施します
 
 # 実験のやり方
-フォルダ構成  
+## フォルダ構成  
 
 project  
 ┣ logdir/  
@@ -19,4 +19,7 @@ project
 ┣ log_for_CSV.py  
 ┣ video.py  
 ┣ video_audio.py  
-┗ watch_zikken.py
+┗ watch_zikken.py  
+
+## 実行
+    python watch_zikken.py
