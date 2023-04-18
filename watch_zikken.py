@@ -7,6 +7,8 @@ import datetime
 import video
 import audio
 from tkinter import messagebox
+import cv2
+import datetime
 import os
 os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0"
 global interval
@@ -151,12 +153,12 @@ class watch_movie(tk.Frame):
     def __init__(self, master):
         if (count %2 == 0):
             self.txt = "リラックス動画が流れます"
-            self.video_path = "C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\video_audio\\video\\1.mp4"
-            self.audio_path="C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\video_audio\\audio\\1.wav"
+            self.video_path = "動画パス.mp4"
+            self.audio_path="音源パス.wav"
         else:
             self.txt = "映画予告の動画が流れます"
-            self.video_path = "C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\video_audio\\video\\1.mp4"
-            self.audio_path="C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\video_audio\\audio\\1.wav"
+            self.video_path = "動画パス.mp4"
+            self.audio_path="音源パス.wav"
 
         super().__init__(master)
         self.pack()
@@ -172,7 +174,7 @@ class watch_movie(tk.Frame):
     def rocate(self):
         self.label1_frame_app.pack_forget()
         self.button_change_frame_app.pack_forget()
-        self.create_widgets()
+        #self.create_widgets()
 
         # 経過時間スレッドの開始
         self.t = threading.Thread(target=self.timer, daemon=True)
@@ -197,11 +199,6 @@ class watch_movie(tk.Frame):
             # logに書き込み
             log.logging(situation="集中ビデオスタート", questionnaire="-")
 
-    # ウィジェットの生成と配置
-    def create_widgets(self):
-        # # 時間計測用のラベル
-        self.time_label = tk.Label(self, text="", font=("", 20))
-        self.time_label.grid(row=4, column=0, columnspan=2)
 
     def timer(self):
         self.second = 0
@@ -209,7 +206,7 @@ class watch_movie(tk.Frame):
         while self.flg:
             print(self.second)
             self.second += 1
-            self.time_label.configure(text=f"経過時間：{self.second}秒")
+            #self.time_label.configure(text=f"経過時間：{self.second}秒")
             time.sleep(1)
 
             # 2分経ったら
@@ -237,7 +234,7 @@ if __name__ == "__main__":
     global count
     count = 1
     root.attributes("-fullscreen", True)
-    root.title("タイピングゲーム！")
+    root.title("視聴実験")
     
     # logを取る
     dt_now = datetime.datetime.now()
@@ -247,8 +244,6 @@ if __name__ == "__main__":
     log.first_log(now)
     # logに書き込み
     log.logging(situation="実験スタート", questionnaire="-")
-
     change()
-
     root.protocol("WM_DELETE_WINDOW", click_close)
     root.mainloop()
