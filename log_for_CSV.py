@@ -14,7 +14,7 @@ class Log:
         self.situation = situation
         self.questionnaire = questionnaire
 
-        filepath = f"C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\log_dir\\{self.first_time}.csv"
+        filepath = f".\\log_dir\\{self.first_time}.csv"
         columns = ["時間", "状態", "アンケート"]
 
         dt_now = datetime.datetime.now()
