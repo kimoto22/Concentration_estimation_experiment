@@ -3,19 +3,17 @@ from tkinter import ttk
 import tkinter as tk
 import time
 import threading
-import datetime
 import video
 import audio
 from tkinter import messagebox
-import cv2
 import datetime
 import os
 os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0"
 global interval
 from log_for_CSV import Log
 
-interval = 10
-task_count = 6
+interval = 120
+task_count = 7
 
 video = video.Video()
 audio = audio.Audio()
@@ -53,7 +51,8 @@ def task_select(canvas,v1):
     # logに書き込み
     log.logging(situation="アンケート解答", questionnaire=str(ans))
     canvas.destroy()
-    #canvas2.destroy()
+    canvas2.destroy()
+
     canvas1 = tk.Canvas(root, highlightthickness=0)  # ,bg = "cyan")
     canvas1.pack(
         fill=tk.BOTH, expand=True
@@ -153,12 +152,21 @@ class watch_movie(tk.Frame):
     def __init__(self, master):
         if (count %2 == 0):
             self.txt = "リラックス動画が流れます"
-            self.video_path = "動画パス.mp4"
-            self.audio_path="音源パス.wav"
+
+            self.video_path = "./video/relax.mp4"
+            self.audio_path="./video/relax.wav"
         else:
+            if count == 1:
+                movie_name = "1"
+            elif count == 3:
+                movie_name = "2"
+            elif count == 5:
+                movie_name = "3"
+
             self.txt = "映画予告の動画が流れます"
-            self.video_path = "動画パス.mp4"
-            self.audio_path="音源パス.wav"
+            self.video_path = "./video/" + movie_name + ".mp4"
+            self.audio_path="./video/" + movie_name + ".wav"
+
 
         super().__init__(master)
         self.pack()
@@ -189,9 +197,11 @@ class watch_movie(tk.Frame):
         video.openfile(self.video_path, self.canvas.frame)
         audio.openfile(self.audio_path)
 
+        self.master.destroy()
         audio.play()
         video.play()
-        
+
+
         if (count %2 == 0):
             # logに書き込み
             log.logging(situation="リラックスビデオスタート", questionnaire="-")
@@ -212,7 +222,7 @@ class watch_movie(tk.Frame):
             # 2分経ったら
             if self.second == interval:
                 #self.q_label2.configure(text="")
-                
+
                 # logに書き込み
                 log.logging(situation="ビデオ終了", questionnaire="-")
 
@@ -220,7 +230,6 @@ class watch_movie(tk.Frame):
                 video.stop()
                 audio.stop()
                 self.canvas.destroy()
-                self.master.destroy()
 
                 global count
                 count += 1
@@ -244,6 +253,7 @@ if __name__ == "__main__":
     log.first_log(now)
     # logに書き込み
     log.logging(situation="実験スタート", questionnaire="-")
+    
     change()
     root.protocol("WM_DELETE_WINDOW", click_close)
     root.mainloop()
