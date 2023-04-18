@@ -151,8 +151,8 @@ class watch_movie(tk.Frame):
     def __init__(self, master):
         if (count %2 == 0):
             self.txt = "リラックス動画が流れます"
-            self.video_path = "./video/relax.mp4"
-            self.audio_path="./video/relax.wav"
+            self.video_path = "./video/relax1.mp4"
+            self.audio_path="./video/relax1.wav"
         else:
             if count == 1:
                 movie_name = "1"
@@ -162,7 +162,7 @@ class watch_movie(tk.Frame):
                 movie_name = "3"
 
             self.txt = "映画予告の動画が流れます"
-            self.video_path = "./video/" + movie_name + ".mp4"
+            self.video_path = "./video/" + movie_name + "_1080p.mp4"
             self.audio_path="./video/" + movie_name + ".wav"
 
         super().__init__(master)
