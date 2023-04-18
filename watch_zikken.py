@@ -3,12 +3,14 @@ from tkinter import ttk
 import tkinter as tk
 import time
 import threading
+import datetime
 import video
 import audio
 from tkinter import messagebox
 import os
 os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0"
 global interval
+from log_for_CSV import Log
 
 interval = 10
 task_count = 6
@@ -45,6 +47,9 @@ def change():
 
 def task_select(canvas,v1):
     print("集中度:%s" % v1.get())
+    ans = v1.get()
+    # logに書き込み
+    log.logging(situation="アンケート解答", questionnaire=str(ans))
     canvas.destroy()
     #canvas2.destroy()
     canvas1 = tk.Canvas(root, highlightthickness=0)  # ,bg = "cyan")
@@ -138,18 +143,20 @@ def end(canvas):
     label1.pack(anchor="center", expand=1)
 
     root.after(3000,close)
+    # logに書き込み
+    log.logging(situation="実験終了", questionnaire="-")
 
 ####映像####
 class watch_movie(tk.Frame):
     def __init__(self, master):
         if (count %2 == 0):
             self.txt = "リラックス動画が流れます"
-            self.video_path = "./video/relax.mp4"
-            self.audio_path="./video/relax.wav"
+            self.video_path = "C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\video_audio\\video\\1.mp4"
+            self.audio_path="C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\video_audio\\audio\\1.wav"
         else:
             self.txt = "映画予告の動画が流れます"
-            self.video_path = "./video/1.mp4"
-            self.audio_path="./video/1.wav"
+            self.video_path = "C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\video_audio\\video\\1.mp4"
+            self.audio_path="C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\video_audio\\audio\\1.wav"
 
         super().__init__(master)
         self.pack()
@@ -182,6 +189,13 @@ class watch_movie(tk.Frame):
 
         audio.play()
         video.play()
+        
+        if (count %2 == 0):
+            # logに書き込み
+            log.logging(situation="リラックスビデオスタート", questionnaire="-")
+        else:
+            # logに書き込み
+            log.logging(situation="集中ビデオスタート", questionnaire="-")
 
     # ウィジェットの生成と配置
     def create_widgets(self):
@@ -201,6 +215,9 @@ class watch_movie(tk.Frame):
             # 2分経ったら
             if self.second == interval:
                 #self.q_label2.configure(text="")
+                
+                # logに書き込み
+                log.logging(situation="ビデオ終了", questionnaire="-")
 
                 self.second = 0
                 video.stop()
@@ -211,6 +228,8 @@ class watch_movie(tk.Frame):
                 global count
                 count += 1
                 questionnaire()
+                # logに書き込み
+                log.logging(situation="アンケート解答画面", questionnaire="-")
                 return 0
 
 if __name__ == "__main__":
@@ -219,6 +238,15 @@ if __name__ == "__main__":
     count = 1
     root.attributes("-fullscreen", True)
     root.title("タイピングゲーム！")
+    
+    # logを取る
+    dt_now = datetime.datetime.now()
+    now = dt_now.strftime('%Y_%m_%d_%H.%M.%S')[:-3]
+    global log
+    log = Log()
+    log.first_log(now)
+    # logに書き込み
+    log.logging(situation="実験スタート", questionnaire="-")
 
     change()
 
