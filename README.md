@@ -23,3 +23,26 @@ project
 
 ## 実行
     python watch_zikken.py
+
+
+# log解析の方法
+## フォルダ構成
+face_landmark
+┣ video/
+┃ ┣ 被験者名フォルダ/
+┃ ┃ ┣ concentration/
+┃ ┃ ┃ ┣ 0,2,4,6.mp4
+┃ ┃ ┣ relax/
+┃ ┃ ┃ ┣ 1,3,5,7.mp4
+┣ model/
+┃ ┣ shape_predictor_68_face_landmarks.dat
+┣ csv_data/
+┃ ┣ output/
+┃ ┃ ┣ 被験者名フォルダ/
+┃ ┃ ┃ ┃ ┣ ここに集中とリラックス時間に分けられた顔ランドマークログ(csv)が入ります
+┣ face_randmark_from_video.py
+┣ CSVファイルを１つにまとめる.py
+
+## 実行
+    python face_randmark_from_video.py
+    python CSVファイルを１つにまとめる.py

@@ -151,10 +151,10 @@ def end(canvas):
 class watch_movie(tk.Frame):
     def __init__(self, master):
         if (count %2 == 0):
+            
             self.txt = "リラックス動画が流れます"
-
-            self.video_path = "./video/relax.mp4"
-            self.audio_path="./video/relax.wav"
+            self.video_path = "C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\video_audio\\video\\relax.mp4"
+            self.audio_path = "C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\video_audio\\audio\\relax.wav"
         else:
             if count == 1:
                 movie_name = "1"
@@ -164,8 +164,8 @@ class watch_movie(tk.Frame):
                 movie_name = "3"
 
             self.txt = "映画予告の動画が流れます"
-            self.video_path = "./video/" + movie_name + ".mp4"
-            self.audio_path="./video/" + movie_name + ".wav"
+            self.video_path = f"C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\video_audio\\video\\{movie_name}.mp4"
+            self.audio_path = f"C:\\Users\\maglab\\Desktop\\kimoto\\vscode_project\\zikken\\Concentration_estimation_experiment\\video_audio\\audio\\{movie_name}.wav"
 
 
         super().__init__(master)
@@ -244,7 +244,7 @@ if __name__ == "__main__":
     count = 1
     root.attributes("-fullscreen", True)
     root.title("視聴実験")
-    
+
     # logを取る
     dt_now = datetime.datetime.now()
     now = dt_now.strftime('%Y_%m_%d_%H.%M.%S')[:-3]
