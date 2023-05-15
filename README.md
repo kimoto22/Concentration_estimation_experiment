@@ -40,7 +40,7 @@ face_landmark
 ┣ csv_data/  
 ┃ ┣ output/  
 ┃ ┃ ┣ 被験者名フォルダ/  
-┃ ┃ ┃ ┃ ┣ ここに集中とリラックス時間に分けられた顔ランドマークログ(csv)が入ります  
+┃ ┃ ┃ ┣ ここに集中とリラックス時間に分けられた顔ランドマークログ(csv)が入ります  
 ┣ face_randmark_from_video.py  
 ┣ CSVファイルを１つにまとめる.py  
 
